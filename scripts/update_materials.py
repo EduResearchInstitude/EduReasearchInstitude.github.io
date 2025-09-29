@@ -40,12 +40,12 @@ def save_materials(materials):
 
 # 서울교육연구정보원 크롤링 함수 (자료 유형, 연도, 태그 추출 로직 강화)
 def crawl_seoul_institute(materials, institute_info):
-    base_url = institute_info['url']
+    base_url = "https://www.serii.re.kr/"
     print(f"  > {institute_info['name']} 크롤링 시작...")
     
     try:
         # 서울교육연구정보원의 '연구보고서' 자료실 페이지 (예시 URL)
-        report_url = f"{base_url}/cop/bbs/selectBoardList.do?bbsId=BBSMSTR_000000000121"
+        report_url = f"{base_url}/fus/MI000000000000000492/board/BO00000221/ctgynone/list0010v.do"
         response = requests.get(report_url, timeout=10)
         response.raise_for_status()
         soup = BeautifulSoup(response.text, 'lxml')
@@ -125,7 +125,7 @@ def crawl_seoul_institute(materials, institute_info):
 
 # 부산교육연구소 크롤링 함수
 def crawl_busan_institute(materials, institute_info):
-    base_url = institute_info['url']
+    base_url = "https://www.beri.pe.kr"
     print(f"  > {institute_info['name']} 크롤링 시작...")
 
     try:
@@ -200,7 +200,7 @@ def crawl_busan_institute(materials, institute_info):
 
 # 대구창의융합교육원 크롤링 함수
 def crawl_daegu_institute(materials, institute_info):
-    base_url = institute_info['url']
+    base_url = "https://www.dge.go.kr/"
     print(f"  > {institute_info['name']} 크롤링 시작...")
 
     try:
@@ -275,7 +275,7 @@ def crawl_daegu_institute(materials, institute_info):
 
 # 인천교육과학정보원 크롤링 함수
 def crawl_incheon_institute(materials, institute_info):
-    base_url = institute_info['url']
+    base_url = "https://ienet.ice.go.kr/"
     print(f"  > {institute_info['name']} 크롤링 시작...")
 
     try:
@@ -347,9 +347,9 @@ def crawl_incheon_institute(materials, institute_info):
     
     return materials
 
-# 광주창의융합교육원 크롤링 함수 (앞서 제공된 코드 유지)
+# 광주창의융합교육원 크롤링 함수
 def crawl_gwangju_institute(materials, institute_info):
-    base_url = institute_info['url']
+    base_url = "https://gice.gen.go.kr/"
     print(f"  > {institute_info['name']} 크롤링 시작...")
 
     try:
