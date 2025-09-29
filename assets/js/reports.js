@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', async function() {
     // 자료 데이터 불러오기
     try {
-        const response = await fetch('../data/all_materials.json');
+        const response = await fetch('/data/all_materials.json');
         const allMaterials = await response.json();
         
         // 연구보고서만 필터링
