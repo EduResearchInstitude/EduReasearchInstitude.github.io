@@ -5,6 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>전국 교육(과학)연구원 자료 허브</title>
     <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        .institute-list-links {
+            list-style-type: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .institute-list-links li {
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            text-align: center;
+        }
+        .institute-list-links li a {
+            text-decoration: none;
+            color: #3498db;
+            font-weight: bold;
+            display: block;
+        }
+        .institute-list-links li a:hover {
+            color: #2980b9;
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
     <div id="header-placeholder"></div>
@@ -14,29 +41,16 @@
         <h2>프로젝트 소개</h2>
         <p>전국 교육(과학)연구원 자료 허브는 전국 기관의 연구보고서·수업자료를 한곳에서 찾을 수 있도록 정리하는 프로젝트입니다.</p>
         
-        <h2>포함된 기관</h2>
-        <ul>
-            <li>서울교육연구정보원</li>
-            <li>부산교육연구소</li>
-            <li>대구창의융합교육원</li>
-            <li>인천교육과학정보원</li>
-            <li>광주창의융합교육원</li>
-            <li>대전교육과학연구원</li>
-            <li>울산교육연구정보원</li>
-            <li>경기도교육연구원</li>
-            <li>강원특별자치도교육연구원</li>
-            <li>충북자연과학교육원</li>
-            <li>충남교육연구정보원</li>
-            <li>전북특별자치도교육연구정보원</li>
-            <li>전남창의융합교육원</li>
-            <li>경북교육청과학원</li>
-            <li>경남과학교육원</li>
-            <li>제주국제교육원</li>
-        </ul>
+        <h2>포함된 기관 (바로가기)</h2>
+        <div id="institute-list-container">
+            <!-- 기관 목록은 index-data.js에 의해 동적으로 로드됩니다 -->
+            <p>기관 정보를 불러오는 중입니다...</p>
+        </div>
     </div>
     
     <div id="footer-placeholder"></div>
 
     <script src="assets/js/common.js"></script>
+    <script src="assets/js/index-data.js"></script> <!-- 새로 추가된 스크립트 -->
 </body>
 </html>
