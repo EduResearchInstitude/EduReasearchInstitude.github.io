@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>연구원별 자료 - 전국 교육(과학)연구원 자료 허브</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <div id="nav-placeholder"></div>
+    
+    <div class="container main-content">
+        <h2>연구원별 자료 모음</h2>
+        
+        <div class="institute-selector">
+            <label for="institute-dropdown">연구원 선택:</label>
+            <select id="institute-dropdown">
+                <option value="">선택하세요</option>
+                <!-- 연구원 목록은 자바스크립트로 채워집니다 -->
+            </select>
+        </div>
+        
+        <div id="institute-info" class="institute-info" style="display: none;">
+            <h3 id="selected-institute-name">연구원 이름</h3>
+            <p><strong>홈페이지:</strong> <a id="institute-url" href="#" target="_blank">바로가기</a></p>
+            
+            <div class="materials-container">
+                <h4>연구보고서</h4>
+                <ul id="institute-reports" class="report-list">
+                    <!-- 연구보고서 목록은 자바스크립트로 채워집니다 -->
+                </ul>
+                
+                <h4>수업지도안</h4>
+                <div id="institute-guides" class="guide-grid">
+                    <!-- 수업지도안 목록은 자바스크립트로 채워집니다 -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="footer-placeholder"></div>
+
+    <script src="../assets/js/common.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            // 연구원 정보와 자료 데이터 불러오기
+            try {
+                const [institutesResponse, materialsResponse] = await Promise.all([
+                    fetch('../data/institutes.json'),
+                    fetch('../data/all_materials.json')
+                ]);
+                
+                const institutes = await institutesResponse.json();
+                const allMaterials = await materialsResponse.json();
+                
+                // 연구원 드롭다운 채우기
+                const dropdown = document.getElementById('institute-dropdown');
+                institutes.forEach(institute => {
+                    const option = document.createElement('option');
+                    option.value = institute.id;
+                    option.textContent = institute.name;
+                    dropdown.appendChild(option);
+                });
+                
+                // 연구원 선택 시 이벤트
+                dropdown.addEventListener('change', function() {
+                    const selectedId = this.value;
+                    if (!selectedId) {
+                        document.getElementById('institute-info').style.display = 'none';
+                        return;
+                    }
+                    
+                    const selectedInstitute = institutes.find(inst => inst.id === selectedId);
+                    if (!selectedInstitute) return;
+                    
+                    // 연구원 정보 표시
+                    document.getElementById('selected-institute-name').textContent = selectedInstitute.name;
+                    const urlLink = document.getElementById('institute-url');
+                    urlLink.href = selectedInstitute.url;
+                    urlLink.textContent = selectedInstitute.url;
+                    
+                    // 해당 연구원의 자료 필터링
+                    const instituteReports = allMaterials.filter(item => 
+                        item.type === 'report' && 
+                        item.institute.includes(selectedInstitute.name)
+                    );
+                    
+                    const instituteGuides = allMaterials.filter(item => 
+                        item.type === 'guide' && 
+                        item.institute.includes(selectedInstitute.name)
+                    );
+                    
+                    // 연구보고서 목록 표시
+                    const reportsContainer = document.getElementById('institute-reports');
+                    if (instituteReports.length === 0) {
+                        reportsContainer.innerHTML = '<li>해당 연구원의 연구보고서가 없습니다.</li>';
+                    } else {
+                        let reportsHtml = '';
+                        instituteReports.forEach(report => {
+                            reportsHtml += `
+                                <li class="report-item">
+                                    <h3>${report.title}</h3>
+                                    <p><strong>발행년도:</strong> ${report.year}</p>
+                                    <p><strong>태그:</strong> ${report.tags.join(', ')}</p>
+                                    <a href="${report.url}" target="_blank">자료 보기</a>
+                                </li>
+                            `;
+                        });
+                        reportsContainer.innerHTML = reportsHtml;
+                    }
+                    
+                    // 수업지도안 목록 표시
+                    const guidesContainer = document.getElementById('institute-guides');
+                    if (instituteGuides.length === 0) {
+                        guidesContainer.innerHTML = '<p>해당 연구원의 수업지도안이 없습니다.</p>';
+                    } else {
+                        let guidesHtml = '';
+                        instituteGuides.forEach(guide => {
+                            guidesHtml += `
+                                <div class="guide-card">
+                                    <h3>${guide.title}</h3>
+                                    <p><strong>교과목:</strong> ${guide.subject || '기타'}</p>
+                                    <p><strong>대상:</strong> ${getGradeText(guide.grade)}</p>
+                                    <p><strong>발행년도:</strong> ${guide.year}</p>
+                                    <a href="${guide.url}" target="_blank">자료 다운로드</a>
+                                </div>
+                            `;
+                        });
+                        guidesContainer.innerHTML = guidesHtml;
+                    }
+                    
+                    // 정보 컨테이너 표시
+                    document.getElementById('institute-info').style.display = 'block';
+                });
+                
+                // 학년 텍스트 변환 함수
+                function getGradeText(grade) {
+                    if (!grade) return '모든 학년';
+                    
+                    switch(grade) {
+                        case 'elementary': return '초등학교';
+                        case 'middle': return '중학교';
+                        case 'high': return '고등학교';
+                        default: return grade;
+                    }
+                }
+                
+            } catch (error) {
+                console.error('데이터를 불러오는 중 오류가 발생했습니다:', error);
+                document.querySelector('.institute-selector').innerHTML += '<p class="error-message">데이터를 불러오는 데 실패했습니다.</p>';
+            }
+        });
+    </script>
+</body>
+</html>
