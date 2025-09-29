@@ -1,1 +1,0 @@
-data/index.json [ { "id": "doc-001", "title": "예시) 과학교육 동향 보고서", "org": "서울교육연구정보원", "year": 2024, "type": "보고서", "url": "https://example.com", "summary": "예시 데이터입니다. 나중에 실제 자료로 교체하세요." }, { "id": "doc-002", "title": "예시) 창의융합 수업지도안 모음", "org": "경기도교육연구원", "year": 2023, "type": "수업지도안", "url": "https://example.com", "summary": "검색·필터 테스트용 예시 데이터입니다." } ]
