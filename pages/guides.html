@@ -4,35 +4,68 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>수업지도안 - 전국 교육(과학)연구원 자료 허브</title>
-    <style>
-        body {
-            font-family: 'Noto Sans KR', sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-            color: #333;
-        }
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        header {
-            background-color: #3498db;
-            color: white;
-            text-align: center;
-            padding: 1rem;
-        }
-        nav {
-            background-color: #2980b9;
-            padding: 10px 0;
-            text-align: center;
-        }
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin: 0 15px;
-            font-weight: bold;
-        }
-        .main-
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <div id="nav-placeholder"></div>
+    
+    <div class="container main-content">
+        <h2>수업지도안 모음</h2>
+        
+        <div class="filter-section">
+            <h3>필터링</h3>
+            <div class="filter-group">
+                <label for="institute-select">연구원:</label>
+                <select id="institute-select">
+                    <option value="all">전체</option>
+                    <option value="seoul">서울교육연구정보원</option>
+                    <option value="busan">부산교육연구소</option>
+                    <!-- 다른 연구원들 추가 -->
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="subject-select">교과목:</label>
+                <select id="subject-select">
+                    <option value="all">전체</option>
+                    <option value="math">수학</option>
+                    <option value="science">과학</option>
+                    <option value="korean">국어</option>
+                    <option value="english">영어</option>
+                    <option value="social">사회</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="grade-select">학년:</label>
+                <select id="grade-select">
+                    <option value="all">전체</option>
+                    <option value="elementary">초등</option>
+                    <option value="middle">중등</option>
+                    <option value="high">고등</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="guide-grid">
+            <div class="guide-card">
+                <h3>AI를 활용한 과학 탐구 수업</h3>
+                <p><strong>연구원:</strong> 서울교육연구정보원</p>
+                <p><strong>교과목:</strong> 과학</p>
+                <p><strong>대상:</strong> 중학교 1-3학년</p>
+                <p><strong>발행년도:</strong> 2025</p>
+                <a href="#" target="_blank">자료 다운로드</a>
+            </div>
+            
+            <div class="guide-card">
+                <h3>데이터 시각화로 배우는 통계</h3>
+                <p><strong>연구원:</strong> 부산교육연구소</p>
+                <p><strong>교과목:</strong> 수학</p>
+                <p><strong>대상:</strong> 고등학교 1-2학년</p>
+                <p><strong>발행년도:</strong> 2024</p>
+                <a href="#" target="_blank">자료 다운로드</a>
+            </div>
+            
+            <div class="guide-card">
+                <h3>디지털 스토리텔링 국어 수업</h3>
+                <p><strong>연구원:</strong> 대구창의융합교육원</p>
+                <p><strong>교과목:</strong
