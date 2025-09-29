@@ -17,7 +17,6 @@ def load_existing_materials():
 # 새 자료인지 확인
 def is_new_material(materials, title, institute):
     for material in materials:
-        # 제목과 기관이 같고, URL도 같으면 동일 자료로 간주 (URL까지 비교하는 것이 더 정확함)
         if material['title'] == title and material['institute'] == institute:
             return False
     return True
@@ -36,86 +35,81 @@ def save_materials(materials):
     with open('data/all_materials.json', 'w', encoding='utf-8') as f:
         json.dump(materials, f, ensure_ascii=False, indent=2)
 
-# 각 교육연구원별 크롤링 함수 (웹사이트 구조에 따라 수정 필요)
-
-# 서울교육연구정보원 크롤링 함수 (자료 유형, 연도, 태그 추출 로직 강화)
+# 서울교육연구정보원 크롤링 함수
 def crawl_seoul_institute(materials, institute_info):
-    base_url = "https://www.serii.re.kr/"
+    base_url = "https://serii.sen.go.kr"
     print(f"  > {institute_info['name']} 크롤링 시작...")
     
     try:
-        # 서울교육연구정보원의 '연구보고서' 자료실 페이지 (예시 URL)
-        report_url = f"{base_url}/fus/MI000000000000000492/board/BO00000221/ctgynone/list0010v.do"
-        response = requests.get(report_url, timeout=10)
+        # 서울교육연구정보원 정책연구 자료실 페이지
+        research_url = f"{base_url}/web/serii/7/10"
+        response = requests.get(research_url, timeout=10)
         response.raise_for_status()
         soup = BeautifulSoup(response.text, 'lxml')
         
-        items = soup.select('table.board_list tbody tr') # 게시글 목록
+        # 게시글 목록 찾기 (실제 사이트 구조에 맞게 수정)
+        items = soup.select('.board-list tbody tr')
         
         for item in items:
             try:
-                title_elem = item.select_one('td.title a')
-                date_elem = item.select_one('td.regdate') # 등록일 태그 (예시)
-
+                # 제목과 링크 추출
+                title_elem = item.select_one('td.subject a')
+                date_elem = item.select_one('td.date')
+                
                 if not title_elem:
                     continue
                     
-                title = title_elem.get_text(strip=True).strip()
+                title = title_elem.get_text(strip=True)
                 link = title_elem.get('href')
                 
                 if link and not link.startswith('http'):
-                    link = base_url + link # 상대 경로 처리
-
-                if title and link and is_new_material(materials, title, institute_info['name']):
-                    material_id = f"id_{institute_info['id']}_{len(materials) + 1}"
-                    
-                    # -------------------------------------------------------------
-                    # 💡 개선된 자료 정보 추출 로직 💡
-                    # -------------------------------------------------------------
-                    # 1. 자료 유형 (type): 제목에 '지도안', '교육과정' 등 특정 키워드를 포함하는지 확인하여 유추
-                    detected_type = "report" # 기본값
-                    if "지도안" in title or "수업자료" in title:
-                        detected_type = "guide"
-                    elif "교육과정" in title or "정책연구" in title:
-                        detected_type = "report" # 이미 기본값이지만 명시적으로
-                    
-                    # 2. 발행 연도 (year): 등록일 태그에서 연도 추출 (예시)
-                    detected_year = "미상"
-                    if date_elem:
-                        full_date_str = date_elem.get_text(strip=True) # 예: 2025-09-29
-                        try:
-                            detected_year = str(datetime.strptime(full_date_str, '%Y-%m-%d').year)
-                        except ValueError:
-                            # 다른 날짜 형식일 경우 추가 처리 필요
-                            pass
+                    if link.startswith('/'):
+                        link = base_url + link
                     else:
-                        # 날짜 태그가 없으면 현재 연도를 임시로 사용
-                        detected_year = str(datetime.now().year)
-
-                    # 3. 태그 (tags): 제목에서 키워드를 찾아 태그로 활용
-                    detected_tags = [institute_info['region'], institute_info['id']] # 지역, ID는 기본 태그
-                    if "AI" in title: detected_tags.append("AI")
-                    if "미래교육" in title: detected_tags.append("미래교육")
-                    if "진로" in title: detected_tags.append("진로")
-                    if "과학" in title: detected_tags.append("과학")
-                    if "수학" in title: detected_tags.append("수학")
-                    # 기타 키워드에 따라 태그 추가 로직 구현
-                    # -------------------------------------------------------------
-
+                        link = base_url + '/' + link
+                
+                if title and link and is_new_material(materials, title, institute_info['name']):
+                    material_id = f"seoul_{len(materials) + 1:03d}"
+                    
+                    # 자료 유형 판단
+                    detected_type = "report"
+                    if "지도안" in title or "교수학습자료" in title or "수업자료" in title:
+                        detected_type = "guide"
+                    
+                    # 연도 추출
+                    detected_year = datetime.now().year
+                    if date_elem:
+                        date_text = date_elem.get_text(strip=True)
+                        try:
+                            if '-' in date_text:
+                                detected_year = int(date_text.split('-')[0])
+                            elif '.' in date_text:
+                                detected_year = int(date_text.split('.')[0])
+                        except:
+                            pass
+                    
+                    # 태그 추출
+                    detected_tags = ["서울", "교육연구"]
+                    keywords = ["교육과정", "교육정책", "미래교육", "AI", "과학", "수학", "진로", "교원"]
+                    for keyword in keywords:
+                        if keyword in title:
+                            detected_tags.append(keyword)
+                    
                     new_material = {
                         "id": material_id,
                         "title": title,
                         "institute": institute_info['name'],
-                        "type": detected_type,       # 추출된 유형 사용
-                        "year": detected_year,       # 추출된 연도 사용
-                        "tags": list(set(detected_tags)), # 중복 태그 제거
+                        "type": detected_type,
+                        "year": str(detected_year),
+                        "tags": detected_tags,
                         "url": link
                     }
+                    
                     materials.append(new_material)
                     print(f"    - 새 자료 추가: {title} (유형: {detected_type}, 연도: {detected_year})")
             except Exception as e:
-                print(f"    - 자료 추출 중 오류 발생: {e} in {institute_info['name']}")
-                    
+                print(f"    - 자료 추출 중 오류 발생: {e}")
+                
     except requests.exceptions.RequestException as e:
         print(f"  > 요청 오류: {institute_info['name']} - {e}")
     except Exception as e:
