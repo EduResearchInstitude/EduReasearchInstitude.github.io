@@ -4,16 +4,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>검색하기 - 전국 교육(과학)연구원 자료 허브</title>
+    <link rel="stylesheet" href="assets/css/style.css">
     <style>
-        body {
-            font-family: 'Noto Sans KR', sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-            color: #333;
+        .search-container {
+            text-align: center;
+            margin: 30px 0;
         }
-        .container {
-            width: 90%;
-            max-width: 1200px;
+        .search-box {
+            display: flex;
+            max-width: 600px;
             margin: 0 auto;
-            padding
+        }
+        .search-box input {
+            flex: 1;
+            padding: 10px;
+            border: 2px solid #3498db;
+            border-radius: 4px 0 0 4px;
+            font-size: 16px;
+        }
+        .search-box button {
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .results-list {
+            margin-top: 20px;
+        }
+        .result-item {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 15px;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>전국 교육(과학)연구원 자료 허브</h1>
+            <p>전국 교육(과학)연구원 자료를 한곳에서 찾아보는 링크 허브</p>
+        </div>
+    </header>
