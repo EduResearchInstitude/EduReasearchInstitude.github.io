@@ -1,7 +1,43 @@
-자료 검색 | 교육(과학)연구원 허브 .container { max-width: 980px; margin: 0 auto; padding: 1rem; } .filters { display: flex; gap: .5rem; flex-wrap: wrap; margin-bottom: .75rem; } .result { border: 1px solid #e5e7eb; border-radius: 8px; padding: .75rem; margin: .5rem 0; background: #fff; } .badge { display: inline-block; padding: 2px 8px; border-radius: 999px; background: #eef2ff; margin-right: .5rem; font-size: .85rem; } .muted { color: #6b7280; font-size: .9rem; } .count { margin: .5rem 0; font-weight: bold; } input, select { padding: .5rem; } a.title { font-weight: 700; font-size: 1.05rem; }
+<!doctype html>
+자료 검색 | 교육(과학)연구원 허브
+.container { max-width: 980px; margin: 0 auto; padding: 1rem; } 
+.filters { display: flex; gap: .5rem; flex-wrap: wrap; margin-bottom: .75rem; } 
+.result { border: 1px solid #e5e7eb; border-radius: 8px; padding: .75rem; margin: .5rem 0; background: #fff; } 
+.badge { display: inline-block; padding: 2px 8px; border-radius: 999px; background: #eef2ff; margin-right: .5rem; font-size: .85rem; } 
+.muted { color: #6b7280; font-size: .9rem; } 
+.count { margin: .5rem 0; font-weight: bold; } 
+input, select { padding: .5rem; } 
+a.title { font-weight: 700; font-size: 1.05rem; }
 자료 검색
 예시 데이터로 동작 중입니다. 나중에 data/index.json만 교체하면 실제 검색이 됩니다.
 
 기관 전체서울교육연구정보원경기도교육연구원대구창의융합교육원광주창의융합교육원전남창의융합교육원유형 전체보고서수업지도안연도 전체2025202420232022
 
-;filtered.sort((a,b)=>(b.year||0)-(a.year||0)).slice(0,200).forEach(d=>{const div=document.createElement("div");div.className="result";div.innerHTML=<a class="title" href="${d.url}" target="_blank" rel="noopener">${d.title}</a><div class="muted"><span class="badge">${d.org||""}</span><span class="badge">${d.type||""}</span><span class="badge">${d.year||""}</span></div><p>${d.summary||""}</p>;wrap.appendChild(div)})}["q","org","type","year"].forEach(id=>{document.addEventListener("input",e=>{if(e.target&&e.target.id===id)render()});document.addEventListener("change",e=>{if(e.target&&e.target.id===id)render()})});loadData();
+<div class="filters">
+  <input id="q" type="search" placeholder="제목·요약 검색(예: 창의융합, 실험)" style="flex:1;" />
+  <select id="org">
+    <option value="">기관 전체</option>
+    <option>서울교육연구정보원</option>
+    <option>경기도교육연구원</option>
+    <option>대구창의융합교육원</option>
+    <option>광주창의융합교육원</option>
+    <option>전남창의융합교육원</option>
+  </select>
+  <select id="type">
+    <option value="">유형 전체</option>
+    <option>보고서</option>
+    <option>수업지도안</option>
+  </select>
+  <select id="year">
+    <option value="">연도 전체</option>
+    <option>2025</option>
+    <option>2024</option>
+    <option>2023</option>
+    <option>2022</option>
+  </select>
+</div>
+
+<div class="count" id="count"></div>
+<div id="results"></div>
+
+</html>
