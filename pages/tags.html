@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>태그별 검색 - 전국 교육(과학)연구원 자료 허브</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <style>
+        .tag-cloud {
+            margin: 20px 0;
+            text-align: center;
+        }
+        .tag-cloud .tag {
+            display: inline-block;
+            margin: 5px;
+            padding: 5px 10px;
+            background-color: #3498db;
+            color: white;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .tag-cloud .tag:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+        .tag-cloud .tag.active {
+            background-color: #e74c3c;
+        }
+        .results-container {
+            margin-top: 30px;
+        }
+        .results-container h3 {
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #eee;
+        }
+        .no-results {
+            text-align: center;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            font-style: italic;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <div id="nav-placeholder"></div>
+    
+    <div class="container main-content">
+        <h2>태그별 자료 검색</h2>
+        <p>관심 있는 태그를 클릭하여 관련 자료를 찾아보세요.</p>
+        
+        <div class="tag-cloud" id="tag-cloud">
+            <!-- 태그 목록은 자바스크립트로 채워집니다 -->
+            <p>태그를 불러오는 중...</p>
+        </div>
+        
+        <div class="results-container" id="results-container">
+            <p>태그를 선택하면 관련 자료가 여기에 표시됩니다.</p>
+        </div>
+    </div>
+    
+    <div id="footer-placeholder"></div>
+
+    <script src="../assets/js/common.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            try {
+                // 자료 데이터 불러오기
+                const response = await fetch('../data/all_materials.json');
+                const allMaterials = await response.json();
+                
+                // 모든 태그 추출 및 중복 제거
+                const allTags = [];
+                allMaterials.forEach(item => {
+                    if (item.tags && Array.isArray(item.tags)) {
+                        item.tags.forEach(tag => {
+                            if (!allTags.includes(tag)) {
+                                allTags.push(tag);
+                            }
+                        });
+                    }
+                });
+                
+                // 태그 정렬
+                allTags.sort();
+                
+                // 태그 클라우드 생성
+                const tagCloud = document.getElementById('tag-cloud');
+                if (allTags.length === 0) {
+                    tagCloud.innerHTML = '<p>태그가 없습니다.</p>';
+                } else {
+                    let tagHtml = '';
+                    allTags.forEach(tag => {
+                        tagHtml += `<span class="tag" data-tag="${tag}">${tag}</span>`;
+                    });
+                    tagCloud.innerHTML = tagHtml;
+                    
+                    // 태그 클릭 이벤트 설정
+                    const tagElements = document.querySelectorAll('.tag');
+                    tagElements.forEach(tagElement => {
+                        tagElement.addEventListener('click', function() {
+                            // 태그 활성화/비활성화 토글
+                            this.classList.toggle('active');
+                            
+                            // 현재 선택된 모든 태그 수집
+                            const activeTags = [];
+                            document.querySelectorAll('.tag.active').forEach(activeTag => {
+                                activeTags.push(activeTag.getAttribute('data-tag'));
+                            });
+                            
+                            // 선택된 태그에 해당하는 자료 필터링
+                            filterMaterialsByTags(allMaterials, activeTags);
+                        });
+                    });
+                }
+            } catch (error) {
+                console.error('데이터를 불러오는 중 오류가 발생했습니다:', error);
+                document.getElementById('tag-cloud').innerHTML = '<p class="error-message">태그를 불러오는 데 실패했습니다.</p>';
+            }
+        });
+        
+        // 태그로 자료 필터링 함수
+        function filterMaterialsByTags(materials, tags) {
+            const resultsContainer = document.getElementById('results-container');
+            
+            if (tags.length === 0) {
+                resultsContainer.innerHTML = '<p>태그를 선택하면 관련 자료가 여기에 표시됩니다.</p>';
+                return;
+            }
+            
+            // 선택된 태그를 모두 포함하는 자료 필터링
+            const filteredMaterials = materials.filter(item => {
+                if (!item.tags || !Array.isArray(item.tags)) return false;
+                
+                return tags.every(tag => item.tags.includes(tag));
+            });
+            
+            if (filteredMaterials.length === 0) {
+                resultsContainer.innerHTML = `<div class="no-results">
+                    <p>선택한 태그에 해당하는 자료가 없습니다.</p>
+                    <p>다른 태그 조합을 시도해 보세요.</p>
+                </div>`;
+                return;
+            }
+            
+            // 결과를 연구보고서와 수업지도안으로 분류
+            const reports = filteredMaterials.filter(item => item.type === 'report');
+            const guides = filteredMaterials.filter(item => item.type === 'guide');
+            
+            let html = '';
+            
+            // 연구보고서 결과 표시
+            if (reports.length > 0) {
+                html += `<h3>연구보고서 (${reports.length})</h3>`;
+                html += '<ul class="report-list">';
+                reports.forEach(report => {
+                    html += `
+                        <li class="report-item">
+                            <h4>${report.title}</h4>
+                            <p><strong>연구원:</strong> ${report.institute}</p>
+                            <p><strong>발행년도:</strong> ${report
