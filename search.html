@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -44,9 +45,26 @@
     </style>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <h1>전국 교육(과학)연구원 자료 허브</h1>
-            <p>전국 교육(과학)연구원 자료를 한곳에서 찾아보는 링크 허브</p>
+    <div id="header-placeholder"></div>
+    <div id="nav-placeholder"></div>
+    
+    <div class="container main-content">
+        <h2>자료 검색</h2>
+        <div class="search-container">
+            <div class="search-box">
+                <input type="text" id="search-input" placeholder="검색어를 입력하세요 (예: AI, 교육과정, 수학)...">
+                <button id="search-button">검색</button>
+            </div>
         </div>
-    </header>
+        <div id="search-results">
+            <p>검색어를 입력하고 검색 버튼을 눌러주세요.</p>
+        </div>
+    </div>
+    
+    <div id="footer-placeholder"></div>
+
+    <script src="assets/js/common.js"></script>
+    <script src="assets/js/search.js"></script> <!-- 검색 스크립트 -->
+</body>
+</html>
+```
