@@ -1,0 +1,98 @@
+[
+  {
+    "id": "seoul",
+    "name": "서울교육연구정보원",
+    "url": "https://serii.sen.go.kr",
+    "region": "서울"
+  },
+  {
+    "id": "busan",
+    "name": "부산교육연구소",
+    "url": "https://beri.pen.go.kr",
+    "region": "부산"
+  },
+  {
+    "id": "daegu",
+    "name": "대구창의융합교육원",
+    "url": "https://daegu.go.kr",
+    "region": "대구"
+  },
+  {
+    "id": "incheon",
+    "name": "인천교육과학정보원",
+    "url": "https://ice.go.kr",
+    "region": "인천"
+  },
+  {
+    "id": "gwangju",
+    "name": "광주창의융합교육원",
+    "url": "https://geec.gen.go.kr",
+    "region": "광주"
+  },
+  {
+    "id": "daejeon",
+    "name": "대전교육과학연구원",
+    "url": "https://des.edurang.net",
+    "region": "대전"
+  },
+  {
+    "id": "ulsan",
+    "name": "울산교육연구정보원",
+    "url": "https://ueri.use.go.kr",
+    "region": "울산"
+  },
+  {
+    "id": "gyeonggi",
+    "name": "경기도교육연구원",
+    "url": "https://gie.kr",
+    "region": "경기"
+  },
+  {
+    "id": "gangwon",
+    "name": "강원특별자치도교육연구원",
+    "url": "https://gret.gwe.go.kr",
+    "region": "강원"
+  },
+  {
+    "id": "chungbuk",
+    "name": "충북자연과학교육원",
+    "url": "https://cnse.go.kr",
+    "region": "충북"
+  },
+  {
+    "id": "chungnam",
+    "name": "충남교육연구정보원",
+    "url": "https://ceri.kr",
+    "region": "충남"
+  },
+  {
+    "id": "jeonbuk",
+    "name": "전북특별자치도교육연구정보원",
+    "url": "https://jberi.kr",
+    "region": "전북"
+  },
+  {
+    "id": "jeonnam",
+    "name": "전남창의융합교육원",
+    "url": "https://jncei.jne.go.kr",
+    "region": "전남"
+  },
+  {
+    "id": "gyeongbuk",
+    "name": "경북교육청과학원",
+    "url": "https://gyo6.net/gbse",
+    "region": "경북"
+  },
+  {
+    "id": "gyeongnam",
+    "name": "경남과학교육원",
+    "url": "https://gnise.go.kr",
+    "region": "경남"
+  },
+  {
+    "id": "jeju",
+    "name": "제주국제교육원",
+    "url": "https://jice.jje.go.kr",
+    "region": "제주"
+  }
+]
