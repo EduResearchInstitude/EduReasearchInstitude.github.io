@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>연구보고서 - 전국 교육(과학)연구원 자료 허브</title>
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            background-color: #3498db;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+        }
+        nav {
+            background-color: #2980b9;
+            padding: 10px 0;
+            text-align: center;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+        }
+        .main-content {
+            padding: 20px 0;
+        }
+        footer {
+            background-color: #f8f9fa;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 30px;
+            font-size: 0.9rem;
+        }
+        .report-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .report-item {
+            border: 1px solid #ddd;
+            margin-bottom: 10px;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .report-item h3 {
+            margin-top: 0;
+        }
+        .institute-filter {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>전국 교육(과학)연구원 자료 허브</h1>
+            <p>전국 교육(과학)연구원 자료를 한곳에서 찾아보는 링크 허브</p>
+        </div>
+    </header>
+    
+    <nav>
+        <div class="container">
+            <a href="../index.html">홈</a>
+            <a href="../search.html">검색하기</a>
+            <a href="reports.html">연구보고서</a>
+            <a href="guides.html">수업지도안</a>
+            <a href="contact.html">문의/제안</a>
+        </div>
+    </nav>
+    
+    <div class="container main-content">
+        <h2>연구보고서 목록</h2>
+        
+        <div class="institute-filter">
+            <label for="institute-select">연구원 선택:</label>
+            <select id="institute-select">
+                <option value="all">전체</option>
+                <option value="seoul">서울교육연구정보원</option>
+                <option value="busan">부산교육연구소</option>
+                <option value="daegu">대구창의융합교육원</option>
+                <option value="incheon">인천교육과학정보원</option>
+                <!-- 다른 연구원들 추가 -->
+            </select>
+        </div>
+        
+        <ul class="report-list">
+            <li class="report-item">
+                <h3>2025 교육과정 개정 연구</h3>
+                <p><strong>연구원:</strong> 서울교육연구정보원</p>
+                <p><strong>발행년도:</strong> 2025</p>
+                <p><strong>요약:</strong> 2025 개정 교육과정에 대한 연구 보고서입니다.</p>
+                <a href="https://serii.sen.go.kr" target="_blank">자료 보기</a>
+            </li>
+            <li class="report-item">
+                <h3>AI 활용 교육 방안 연구</h3>
+                <p><strong>연구원:</strong> 부산교육연구소</p>
+                <p><strong>발행년도:</strong> 2024</p>
+                <p><strong>요약:</strong> 인공지능을 교육에 활용하는 방안에 대한 연구 보고서입니다.</p>
+                <a href="#" target="_blank">자료 보기</a>
+            </li>
+            <!-- 추가 보고서 항목 -->
+        </ul>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>전국 교육(과학)연구원 자료 허브 &copy; 2025</p>
+            <p>최근 업데이트: 2025-09-29</p>
+        </div>
+    </footer>
+</body>
+</html>
