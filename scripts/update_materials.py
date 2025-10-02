@@ -37,17 +37,17 @@ def save_materials(materials):
 
 # 서울교육연구정보원 크롤링 함수
 def crawl_seoul_institute(materials, institute_info):
-    base_url = "https://serii.sen.go.kr"
+    base_url = "https://www.serii.re.kr"
     print(f"  > {institute_info['name']} 크롤링 시작...")
     
     try:
-        # 서울교육연구정보원 정책연구 자료실 페이지
-        research_url = f"{base_url}/web/serii/7/10"
+        # 서울교육연구정보원 자체연구 페이지
+        research_url = f"{base_url}/fus/MI000000000000000493/board/BO00000341/ctgynone/list0010v.do"
         response = requests.get(research_url, timeout=10)
         response.raise_for_status()
         soup = BeautifulSoup(response.text, 'lxml')
         
-        # 게시글 목록 찾기 (실제 사이트 구조에 맞게 수정)
+        # 게시글 목록 찾기
         items = soup.select('.board-list tbody tr')
         
         for item in items:
@@ -89,7 +89,7 @@ def crawl_seoul_institute(materials, institute_info):
                             pass
                     
                     # 태그 추출
-                    detected_tags = ["서울", "교육연구"]
+                    detected_tags = ["서울", "교육연구", "자체연구"]
                     keywords = ["교육과정", "교육정책", "미래교육", "AI", "과학", "수학", "진로", "교원"]
                     for keyword in keywords:
                         if keyword in title:
