@@ -47,20 +47,25 @@ def crawl_seoul_institute(materials, institute_info):
         response.raise_for_status()
         soup = BeautifulSoup(response.text, 'lxml')
         
-        # 게시글 목록 찾기
-        items = soup.select('.board-list tbody tr')
+        # 디버깅: HTML 구조 확인
+        print(f"  > HTML 구조 확인: {len(soup.select('table.board-list'))} 테이블 발견")
+        
+        # 게시글 목록 찾기 - 여러 선택자 시도
+        items = soup.select('.board_list tbody tr') or soup.select('table.board-list tbody tr') or soup.select('.board_wrap table tbody tr')
+        print(f"  > 발견된 게시글 수: {len(items)}")
         
         for item in items:
             try:
-                # 제목과 링크 추출
-                title_elem = item.select_one('td.subject a')
-                date_elem = item.select_one('td.date')
+                # 제목과 링크 추출 - 여러 선택자 시도
+                title_elem = item.select_one('td.subject a') or item.select_one('td.title a') or item.select_one('td a')
+                date_elem = item.select_one('td.date') or item.select_one('td:nth-child(4)')
                 
                 if not title_elem:
                     continue
                     
                 title = title_elem.get_text(strip=True)
                 link = title_elem.get('href')
+                print(f"  > 발견된 제목: {title}, 링크: {link}")
                 
                 if link and not link.startswith('http'):
                     if link.startswith('/'):
@@ -116,7 +121,7 @@ def crawl_seoul_institute(materials, institute_info):
         print(f"  > 서울교육연구정보원 크롤링 중 알 수 없는 오류: {e}")
     
     return materials
-
+    
 # 부산교육연구소 크롤링 함수
 def crawl_busan_institute(materials, institute_info):
     base_url = "https://www.beri.pe.kr"
